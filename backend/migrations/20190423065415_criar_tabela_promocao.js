@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
         table.decimal('percentual').notNull()
         table.integer('quantidademaxima')
         table.boolean('idnativo').defaultTo(true)
-        table.string('codigoerp')
+        table.string('codigoexterno')
     })
 };
 

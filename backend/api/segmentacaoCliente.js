@@ -6,7 +6,7 @@ module.exports = app => {
             descricao: req.body.descricao,
             sglsegmentacao: req.body.sglsegmentacao,
             idnativo: req.body.idnativo,
-            codigoerp: req.body.codigoerp
+            codigoexterno: req.body.codigoexterno
         }
 
         if (req.params.id) segmentacaoCliente.id = req.params.id

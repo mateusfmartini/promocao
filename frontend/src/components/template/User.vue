@@ -1,12 +1,12 @@
 <template>
         <div class="user px-2">
             <router-link to="/"><div class="user-img">
-                <div class="name">{{nome}}</div>
+                <div class="name">{{fornecedor.nome}}</div>
             </div></router-link>
             <div class="user-info mt-3 pl-2">
                 <p class="email">
                     <i class="fa fa-envelope text-primary"></i>
-                    {{email}}
+                    {{fornecedor.email}}
                 </p>
                 <p class="telefone">
                     <i class="fa fa-phone text-primary"></i>
@@ -17,19 +17,16 @@
 </template>
 
 <script>
+import { mapState } from "vuex"
 export default {
     name: 'User',
-    props: ['nome', 'email', 'telefone'],
+    props: ['telefone'],
     data: function() {
         return { 
             imageUrl: null
         }    
     },
-    computed: {
-        userImage() {
-            return this.imageUrl ? this.imageUrl : "user.png"
-        }
-    }
+    computed: mapState(['fornecedor'])
 }
 </script>
 

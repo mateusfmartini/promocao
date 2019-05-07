@@ -12,10 +12,11 @@ module.exports = app => {
         const cliente = { 
             descricao: req.body.descricao,
             email: req.body.email,
+            telefone: req.body.telefone,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
             idnativo: req.body.idnativo,
-            codigoerp: req.body.codigoerp
+            codigoexterno: req.body.codigoexterno
         }
 
         if (req.params.id) cliente.id = req.params.id
@@ -54,14 +55,14 @@ module.exports = app => {
 
     const get = (req, res) => {
         app.db('cliente')
-            .select('id', 'descricao', 'email', 'idnativo', 'codigoerp')
+            .select('id', 'descricao', 'email', 'telefone', 'idnativo', 'codigoexterno')
             .then(clientes => res.json(clientes))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
         app.db('cliente')
-            .select('id', 'descricao', 'email')
+            .select('id', 'descricao', 'email', 'telefone', 'idnativo', 'codigoexterno')
             .where({ id: req.params.id}).first()
             .then(cliente => res.json(cliente))
             .catch(err => res.status(500).send(err))

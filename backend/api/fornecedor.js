@@ -12,16 +12,17 @@ module.exports = app => {
         const fornecedor = { 
             descricao: req.body.descricao,
             email: req.body.email,
+            telefone: req.body.telefone,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
             idnativo: req.body.idnativo,
-            codigoerp: req.body.codigoerp
+            codigoexterno: req.body.codigoexterno
         }
 
         if (req.params.id) fornecedor.id = req.params.id
 
         try {
-            existsOrError(fornecedor.descricao, 'Nome da empresa não informado!')
+            existsOrError(fornecedor.descricao, 'Nome do fornecedor não informado!')
             existsOrError(fornecedor.email, 'E-mail não informado!')
             existsOrError(fornecedor.password, 'Senha não informada!')
             existsOrError(fornecedor.passwordConfirm, 'Confirmação de senha não informada!')
@@ -30,7 +31,7 @@ module.exports = app => {
             const fornecedorExistente = await app.db('fornecedor')
                 .where({ email: fornecedor.email }).first()
 
-            notExistsOrError(fornecedorExistente, 'Empresa já cadastrada')
+            notExistsOrError(fornecedorExistente, 'Fornecedor já cadastrado')
         } catch(msg) {
             return res.status(400).send(msg)
         }
@@ -54,14 +55,14 @@ module.exports = app => {
 
     const get = (req, res) => {
         app.db('fornecedor')
-            .select('id', 'descricao', 'email', 'idnativo', 'codigoerp')
+            .select('id', 'descricao', 'email', 'telefone', 'idnativo', 'codigoexterno')
             .then(fornecedores => res.json(fornecedores))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
         app.db('fornecedor')
-            .select('id', 'descricao', 'email')
+            .select('id', 'descricao', 'email', 'telefone', 'idnativo', 'codigoexterno')
             .where({ id: req.params.id}).first()
             .then(fornecedores => res.json(fornecedores))
             .catch(err => res.status(500).send(err))
@@ -69,11 +70,11 @@ module.exports = app => {
 
     const remove = async (req, res) => {
         try {
-            existsOrError(req.params.id, 'Código da empresa não informado.')
+            existsOrError(req.params.id, 'Código do fornecedor não informado.')
 
             const rowDeleted = await app.db('fornecedor')
                 .where({ id: req.params.id }).del()
-            existsOrError(rowDeleted, 'Empresa não encontrada')
+            existsOrError(rowDeleted, 'Fornecedor não encontrado')
 
             res.status(204).send()
         } catch(msg) {

@@ -10,7 +10,7 @@ module.exports = app => {
             descricao: req.body.descricao,
             preco: req.body.preco,
             idnativo: req.body.idnativo,
-            codigoerp: req.body.codigoerp
+            codigoexterno: req.body.codigoexterno
         }
 
         if (req.params.id) produto.id = req.params.id
@@ -58,6 +58,14 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
+    const getByFornecedor = (req, res) => {
+        app.db('produto')
+            .select('*')
+            .where({ idfornecedor: req.params.id, idnativo: true })
+            .then(produto => res.json(produto))
+            .catch(err => res.status(500).send(err))
+    }
+    
     const remove = async (req, res) => {
         try {
             existsOrError(req.params.id, 'Código do produto não informado.')
@@ -72,5 +80,5 @@ module.exports = app => {
         }
     }
 
-    return { save, get, getById, remove }
+    return { save, get, getById, getByFornecedor, remove }
 }

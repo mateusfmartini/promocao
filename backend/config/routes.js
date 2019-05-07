@@ -1,12 +1,20 @@
 module.exports = app => {
+    app.post('/validateToken', app.api.auth.validateToken)
+
     app.route('/fornecedores')
         .post(app.api.fornecedor.save)
         .get(app.api.fornecedor.get)
+
+    app.route('/fornecedores/signin')
+        .post(app.api.auth.signinFornecedor)
 
     app.route('/fornecedores/:id')
         .put(app.api.fornecedor.save)
         .get(app.api.fornecedor.getById)
         .delete(app.api.fornecedor.remove)
+    
+    app.route('/fornecedores/:id/produtos')
+        .get(app.api.produto.getByFornecedor)
 
     app.route('/clientes')
         .post(app.api.cliente.save)

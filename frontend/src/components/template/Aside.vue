@@ -1,6 +1,6 @@
 <template>
     <aside class="aside">
-        <User nome="Mateus Feiertag Martini" email="mateusfmartini@hotmail.com" telefone="45999893970"/>
+        <User telefone="45999893970"/>
         <hr class="mx-3">
         <Menu />
     </aside>

@@ -1,19 +1,57 @@
 <template>
-  <div id="app">
-		<Aside />
+  <div id="app" :class="{'login': !fornecedor }">
+		<Aside v-if="fornecedor"/>
 		<Content />
 		<Footer />
   </div>
 </template>
 
 <script>
+import { baseApiUrl, chaveFornecedor } from './global'
+import axios from 'axios'
+import { mapState } from "vuex"
 import Aside from '@/components/template/Aside.vue'
 import Content from '@/components/template/Content.vue'
 import Footer from '@/components/template/Footer.vue'
 
 export default {
   name: 'app',
-  components: {Aside, Content, Footer}
+  components: {Aside, Content, Footer},
+  computed: mapState(['fornecedor']),
+  data: function() {
+		return {
+			validatingToken: true
+		}
+  },
+  methods: {
+		async validateToken() {
+			this.validatingToken = true
+
+			const json = localStorage.getItem(chaveFornecedor)
+			const userData = JSON.parse(json)
+			this.$store.commit('setFornecedor', null)
+
+			if(!userData) {
+				this.validatingToken = false
+				this.$router.push({ name: 'auth' })
+				return
+			}
+
+			const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
+
+			if (res.data) {
+				this.$store.commit('setFornecedor', userData)
+			} else {
+				localStorage.removeItem(chaveFornecedor)
+				this.$router.push({ name: 'auth' })
+			}
+
+			this.validatingToken = false
+		}
+	},
+	mounted() {
+		this.validateToken()
+	}
 }
 </script>
 
@@ -44,6 +82,12 @@ export default {
 			"footer footer";
 } }
 
-
+#app.login{
+		grid-template-rows: 1fr 40px;
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			"content"
+			"footer";
+}
 
 </style>

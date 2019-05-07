@@ -7,7 +7,7 @@ exports.up = function(knex, Promise) {
         table.string('descricao').notNull()
         table.decimal('preco').notNull()
         table.boolean('idnativo').defaultTo(true)
-        table.string('codigoerp')
+        table.string('codigoexterno')
     })
 };
 

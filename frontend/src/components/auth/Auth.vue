@@ -1,23 +1,24 @@
 <template>
-        <div class="auth-modal">
-            <img src="@/assets/logo.png" width="200" alt="Logo" />
-            <hr>
-            <div class="auth-title">{{ showSignup ? 'Cadastro' : 'Login' }}</div>
+    <div class="auth-modal">
+        <img src="@/assets/logo.png" width="200" alt="Logo" />
+        <hr>
+        <div class="auth-title">{{ showSignup ? 'Cadastro' : 'Login' }}</div>
 
-            <input v-if="showSignup" v-model="fornecedor.name" type="text" placeholder="Nome">
-            <input v-model="fornecedor.email" name="email" type="text" placeholder="E-mail">
-            <input v-model="fornecedor.password" name="password" type="password" placeholder="Senha">
-            <input v-if="showSignup" v-model="fornecedor.confirmPassword"
-                type="password" placeholder="Confirme a Senha">
+        <input v-if="showSignup" v-model="fornecedor.descricao" type="text" placeholder="Nome da empresa">
+        <input v-model="fornecedor.email" name="email" type="email" placeholder="E-mail">
+        <input v-if="showSignup" v-model="fornecedor.telefone" name="telefone" type="tel" placeholder="Telefone">
+        <input v-model="fornecedor.password" name="password" type="password" placeholder="Senha">
+        <input v-if="showSignup" v-model="fornecedor.passwordConfirm"
+            type="password" placeholder="Confirme a Senha">
 
-            <button v-if="showSignup" @click="signup">Registrar</button>
-            <button v-else @click="signin">Entrar</button>
+        <button v-if="showSignup" @click="signup">Registrar</button>
+        <button v-else @click="signin">Entrar</button>
 
-            <a href @click.prevent="showSignup = !showSignup">
-                <span v-if="showSignup">Já tem cadastro? Acesse o Login!</span>
-                <span v-else>Não tem cadastro? Registre-se aqui!</span>
-            </a>
-        </div>
+        <a href @click.prevent="showSignup = !showSignup">
+            <span v-if="showSignup">Já tem cadastro? Acesse o Login!</span>
+            <span v-else>Não tem cadastro? Registre-se aqui!</span>
+        </a>
+    </div>
 </template>
 
 <script>
@@ -43,7 +44,7 @@ export default {
                 .catch(showError)
         },
         signup() {
-            axios.post(`${baseApiUrl}/signup`, this.fornecedor)
+            axios.post(`${baseApiUrl}/fornecedores/signup`, this.fornecedor)
                 .then(() => {
                     this.$toasted.global.defaultSuccess()
                     this.fornecedor = {}
@@ -51,19 +52,18 @@ export default {
                 })
                 .catch(showError)
         }
+
+    },
+    mounted() {
+        document.querySelector('.content').classList.add('auth')
+    },
+    destroyed() {
+        document.querySelector('.content').classList.remove('auth')
     }
 }
 </script>
 
 <style>
-    .content {
-        margin: 0;
-        background-color: #f1f1f1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
     .auth-modal {
         display: flex;
         flex-direction: column;

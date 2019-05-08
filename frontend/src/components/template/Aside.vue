@@ -1,6 +1,6 @@
 <template>
     <aside class="aside">
-        <User telefone="45999893970"/>
+        <User />
         <hr class="mx-3">
         <Menu />
     </aside>

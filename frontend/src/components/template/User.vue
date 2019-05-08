@@ -1,16 +1,16 @@
 <template>
         <div class="user px-2">
             <router-link to="/"><div class="user-img">
-                <div class="name">{{fornecedor.nome}}</div>
+                <div v-if="fornecedor.descricao" class="name">{{fornecedor.descricao}}</div>
             </div></router-link>
             <div class="user-info mt-3 pl-2">
-                <p class="email">
+                <p v-if="fornecedor.email" class="email">
                     <i class="fa fa-envelope text-primary"></i>
                     {{fornecedor.email}}
                 </p>
-                <p class="telefone">
+                <p v-if="fornecedor.telefone" class="telefone">
                     <i class="fa fa-phone text-primary"></i>
-                    {{telefone}}
+                    {{fornecedor.telefone}}
                 </p>
             </div>
         </div>

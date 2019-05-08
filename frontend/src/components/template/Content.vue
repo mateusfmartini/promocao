@@ -12,6 +12,14 @@ export default {
 </script>
 
 <style>
+    .content.auth {
+        margin: 0;
+        background-color: #f1f1f1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
 .content {
     grid-area: content;
     padding: 20px;
@@ -19,6 +27,7 @@ export default {
     background-color: white;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
     font-size: 14px;
+    display: block;
 }
 
 @media (min-width: 768px) {

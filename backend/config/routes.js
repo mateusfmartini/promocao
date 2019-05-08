@@ -1,5 +1,6 @@
 module.exports = app => {
     app.post('/validateToken', app.api.auth.validateToken)
+    app.post('/fornecedores/signup', app.api.fornecedor.save)
 
     app.route('/fornecedores')
         .post(app.api.fornecedor.save)

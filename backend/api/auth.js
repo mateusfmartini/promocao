@@ -21,8 +21,9 @@ module.exports = app => {
 
         const payload = {
             id: fornecedor.id,
-            desricao: fornecedor.desricao,
+            descricao: fornecedor.descricao,
             email: fornecedor.email,
+            telefone: fornecedor.telefone,
             iat: now,
             exp: now + (60 * 60 * 24 * 3)
         }

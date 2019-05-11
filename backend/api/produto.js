@@ -21,10 +21,12 @@ module.exports = app => {
             existsOrError(produto.descricao, 'Nome do produto não informado!')
             existsOrError(produto.preco, 'Preço do produto não informado!')
 
+            if (!req.params.id) {
             const codigoExistente = await app.db('produto')
             .where({ codigo: produto.codigo, idfornecedor: produto.idfornecedor }).first()
-
+            
             notExistsOrError(codigoExistente, 'Código do produto já cadastrado!')
+            }
         } catch(msg) {
             return res.status(400).send(msg)
         }

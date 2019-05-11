@@ -45,20 +45,35 @@ export default {
     },
     methods: {
         salvar() {
-            axios.post(`${baseApiUrl}/produtos`, this.produto)
-            .then(() => {
+            if (this.produto.id) {
+                axios.put(`${baseApiUrl}/produtos/${this.produto.id}`, this.produto)
+                .then(() => {
                     this.$toasted.global.defaultSuccess()
                     this.produto = {}
-                    this.showSignup = false
+                    this.$router.push({ path: '/produtos' })
                 })
                 .catch(showError)
+            } else {
+                axios.post(`${baseApiUrl}/produtos`, this.produto)
+                .then(() => {
+                    this.$toasted.global.defaultSuccess()
+                    this.produto = {}
+                    this.$router.push({ path: '/produtos' })
+                })
+                .catch(showError)
+            }
         },
         cancelar() {
             this.$router.push({ path: '/produtos' })
         }
     },
-    mounted() {
+    created() {
         this.produto.idfornecedor = JSON.parse(localStorage.getItem(chaveFornecedor)).id
+
+        this.produto.id = this.$route.params.id
+        this.produto.descricao = this.$route.params.descricao
+        this.produto.codigo = this.$route.params.codigo
+        this.produto.preco = this.$route.params.preco
     }
 }
 </script>

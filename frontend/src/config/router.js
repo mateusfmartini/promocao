@@ -28,7 +28,8 @@ const routes = [
     },{
         name: 'formProdutos',
         path: '/produtos/form',
-        component: FormProdutos
+        component: FormProdutos,
+        props: true
     }
 
 ]

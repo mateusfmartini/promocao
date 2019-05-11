@@ -3,7 +3,7 @@
         <b-button variant="primary" @click="adicionarProdutos">Adicionar</b-button>
         <b-table hover striped :items="produtos" :fields="fields">
             <template slot="actions" slot-scope="data">
-                <b-button variant="warning" @click="loadUser(data.item)" class="mr-2">
+                <b-button variant="warning" @click="editarProduto(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
                 <b-button variant="danger" @click="removerProduto(data.item)">
@@ -50,6 +50,17 @@ export default {
                     this.consultaProdutos()
                 })
                 .catch(showError)
+        },
+        editarProduto(produto) {
+            this.$router.push({
+                name: 'formProdutos',
+                params: {
+                    id: produto.id,
+                    descricao: produto.descricao,
+                    codigo: produto.codigo,
+                    preco: produto.preco
+                    } 
+                })
         }
     },
     mounted() {

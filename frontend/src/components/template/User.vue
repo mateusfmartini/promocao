@@ -20,7 +20,6 @@
 import { mapState } from "vuex"
 export default {
     name: 'User',
-    props: ['telefone'],
     data: function() {
         return { 
             imageUrl: null
@@ -53,11 +52,19 @@ export default {
     align-items: center;
 }
 
+.user-info {
+    font-size: 14px;
+}
+
 @media (min-width: 992px) {
     .user-img {
     min-height: 250px;
     background-size: 250px 100%;
     }
+
+    .user-info {
+    font-size: 18px;
+}
 }
 
 .user-img .name {

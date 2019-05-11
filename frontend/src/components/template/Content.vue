@@ -22,7 +22,7 @@ export default {
 
 .content {
     grid-area: content;
-    padding: 20px;
+    padding: 10px;
     margin: 0px 15px 15px 15px;
     background-color: white;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);

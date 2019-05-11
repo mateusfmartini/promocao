@@ -4,6 +4,7 @@
         <router-link to="/clientes">Clientes</router-link>
         <router-link to="/produtos">Produtos</router-link>
         <router-link to="/promocoes">Promoções</router-link>
+        <hr class="mx-3 my-1">
         <a href @click.prevent="logout"><i class="fa fa-sign-out"></i> Sair</a>
     </div>
 </template>

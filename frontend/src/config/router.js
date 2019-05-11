@@ -4,6 +4,7 @@ import Home from '@/components/home/Home.vue'
 import Auth from '@/components/auth/Auth.vue'
 import Produtos from '@/components/listagem/Produtos.vue'
 import Clientes from '@/components/listagem/Clientes.vue'
+import FormProdutos from '@/components/formularios/FormProdutos.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,10 @@ const routes = [
         name: 'auth',
         path: '/auth',
         component: Auth
+    },{
+        name: 'formProdutos',
+        path: '/produtos/form',
+        component: FormProdutos
     }
 
 ]

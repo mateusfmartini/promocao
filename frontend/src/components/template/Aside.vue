@@ -1,7 +1,7 @@
 <template>
     <aside class="aside">
         <User />
-        <hr class="mx-3">
+        <hr class="mx-3 my-1">
         <Menu />
     </aside>
 </template>
@@ -33,5 +33,8 @@ export default {
     background-color: white;
     font-size: 18px;
     box-shadow: 0 4px 10px 0 rgba(0,0,0,0.2), 0 4px 20px 0 rgba(0,0,0,0.19);
+    overflow: hidden;
 }
+
+
 </style>

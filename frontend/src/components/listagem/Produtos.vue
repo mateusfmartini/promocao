@@ -35,7 +35,7 @@ export default {
     },
     methods: {
         consultaProdutos() {
-            const url = `${baseApiUrl}/produtos`
+            const url = `${baseApiUrl}/produtos/ativos`
             axios.get(url).then(res => {
                 this.produtos = res.data
             })

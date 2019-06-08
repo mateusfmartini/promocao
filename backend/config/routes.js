@@ -30,6 +30,9 @@ module.exports = app => {
         .post(app.api.produto.save)
         .get(app.api.produto.get)
 
+    app.route('/produtos/ativos')
+        .get(app.api.produto.getActive)
+
     app.route('/produtos/segmentacoes')
         .post(app.api.produtoSegmentacao.save)
         .get(app.api.produtoSegmentacao.get)
@@ -42,7 +45,7 @@ module.exports = app => {
     app.route('/produtos/:id')
         .put(app.api.produto.save)
         .get(app.api.produto.getById)
-        .delete(app.api.produto.remove)
+        .delete(app.api.produto.softRemove)
 
     app.route('/produtos/:id/segmentacoes')
         .get(app.api.produtoSegmentacao.getByProduto)

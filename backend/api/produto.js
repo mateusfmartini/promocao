@@ -54,6 +54,14 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
+    const getActive = (req, res) => {
+        app.db('produto')
+            .select('*')
+            .where({idnativo: true})
+            .then(produtos => res.json(produtos))
+            .catch(err => res.status(500).send(err))
+    }
+
     const getById = (req, res) => {
         app.db('produto')
             .select('*')
@@ -92,5 +100,21 @@ module.exports = app => {
         }
     }
 
-    return { save, get, getById, getByFornecedor, remove }
+    const softRemove = async (req, res) => {
+        try {
+            existsOrError(req.params.id, 'Código do produto não informado.')
+
+            const rowInactivated = await app.db('produto')
+                .update({idnativo: false})
+                .where({ id: req.params.id })
+
+            existsOrError(rowInactivated, 'Produto não encontrado')
+
+            res.status(204).send()
+        } catch(msg) {
+            res.status(400).send(msg)
+        }
+    }
+
+    return { save, get, getActive, getById, getByFornecedor, remove, softRemove }
 }

@@ -38,10 +38,12 @@ module.exports = app => {
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            app.db('produto')
+            await app.db('produto')
                 .insert(produto)
-                .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
+
+            getByCodigoFornecedor({ codigo: produto.codigo, idfornecedor: produto.idfornecedor })
+            .then(result => res.status(200).send(result))
         }
     }
 
@@ -58,6 +60,14 @@ module.exports = app => {
             .where({ id: req.params.id}).first()
             .then(produto => res.json(produto))
             .catch(err => res.status(500).send(err))
+    }
+
+    const getByCodigoFornecedor = (req, res) => {
+        return app.db('produto')
+            .select('*')
+            .where({ codigo: req.codigo, idfornecedor: req.idfornecedor }).first()
+            .then(produto => produto)
+            .catch(err => err)
     }
 
     const getByFornecedor = (req, res) => {

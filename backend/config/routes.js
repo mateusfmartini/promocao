@@ -30,26 +30,33 @@ module.exports = app => {
         .post(app.api.produto.save)
         .get(app.api.produto.get)
 
+    app.route('/produtos/segmentacoes')
+        .post(app.api.produtoSegmentacao.save)
+        .get(app.api.produtoSegmentacao.get)
+
+    app.route('/produtos/segmentacoes/:id')
+        .put(app.api.produtoSegmentacao.save)
+        .get(app.api.produtoSegmentacao.getById)
+        .delete(app.api.produtoSegmentacao.remove)    
+
     app.route('/produtos/:id')
         .put(app.api.produto.save)
         .get(app.api.produto.getById)
         .delete(app.api.produto.remove)
 
-        app.route('/segmentacao/produtos')
-        .post(app.api.segmentacaoProduto.save)
-        .get(app.api.segmentacaoProduto.get)
+    app.route('/produtos/:id/segmentacoes')
+        .get(app.api.produtoSegmentacao.getByProduto)
+        .delete(app.api.produtoSegmentacao.removeByProduto)
 
-        app.route('/segmentacao/produtos/:id')
-        .put(app.api.segmentacaoProduto.save)
-        .get(app.api.segmentacaoProduto.getById)
-        .delete(app.api.segmentacaoProduto.remove)
+    app.route('/segmentacoes')
+        .post(app.api.segmentacao.save)
+        .get(app.api.segmentacao.get)
 
-        app.route('/segmentacao/clientes')
-        .post(app.api.segmentacaoCliente.save)
-        .get(app.api.segmentacaoCliente.get)
+    app.route('/segmentacoes/:id')
+        .put(app.api.segmentacao.save)
+        .get(app.api.segmentacao.getById)
+        .delete(app.api.segmentacao.remove)
+    
 
-        app.route('/segmentacao/clientes/:id')
-        .put(app.api.segmentacaoCliente.save)
-        .get(app.api.segmentacaoCliente.getById)
-        .delete(app.api.segmentacaoCliente.remove)
+
 }

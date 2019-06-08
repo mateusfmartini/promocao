@@ -20,7 +20,7 @@ module.exports = app => {
         }
 
         if (req.params.id) fornecedor.id = req.params.id
-
+        else {
         try {
             existsOrError(fornecedor.descricao, 'Nome do fornecedor não informado!')
             existsOrError(fornecedor.email, 'E-mail não informado!')
@@ -28,13 +28,16 @@ module.exports = app => {
             existsOrError(fornecedor.passwordConfirm, 'Confirmação de senha não informada!')
             equalsOrError(fornecedor.password, fornecedor.passwordConfirm, 'Senhas não conferem!')
 
+           
             const fornecedorExistente = await app.db('fornecedor')
                 .where({ email: fornecedor.email }).first()
 
             notExistsOrError(fornecedorExistente, 'Fornecedor já cadastrado')
+            
         } catch(msg) {
             return res.status(400).send(msg)
-        }
+        } }
+    
 
         fornecedor.password = encryptPassword(fornecedor.password)
         delete fornecedor.passwordConfirm

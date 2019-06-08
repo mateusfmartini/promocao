@@ -3,10 +3,10 @@
         <b-button variant="primary" @click="adicionarProdutos">Adicionar</b-button>
         <b-table hover striped :items="produtos" :fields="fields">
             <template slot="actions" slot-scope="data">
-                <b-button variant="warning" @click="editarProduto(data.item)" class="mr-2">
+                <b-button v-b-tooltip.hover="{title: 'Editar', delay: 300}" variant="warning" @click="editarProduto(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
                 </b-button>
-                <b-button variant="danger" @click="removerProduto(data.item)">
+                <b-button v-b-tooltip.hover="{title: 'Excluir', delay: 300}" variant="danger" @click="removerProduto(data.item)">
                     <i class="fa fa-trash"></i>
                 </b-button>
             </template>
@@ -65,6 +65,7 @@ export default {
     },
     mounted() {
         this.consultaProdutos()
+
     }
 }
 </script>

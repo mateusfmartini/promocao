@@ -10,21 +10,21 @@
                     <b-form-group label="Nome:" label-for="produto-descricao">
                         <b-form-input id="produto-descricao" type="text"
                             v-model="produto.descricao" required
-                            placeholder="Informe o Nome do Produto..." />
+                            placeholder="Informe o nome do produto..." />
                     </b-form-group>
                 </b-col>
                 <b-col md="6" sm="12">
                     <b-form-group label="Código:" label-for="produto-codigo">
                         <b-form-input id="produto-codigo" type="text"
                             v-model="produto.codigo" required
-                            placeholder="Informe o Código do Produto..." />
+                            placeholder="Informe o código do produto..." />
                     </b-form-group>
                 </b-col>
                 <b-col sm="6">
                     <b-form-group label="Preço:" label-for="produto-preco">
                         <b-form-input id="produto-preco" type="number"
                             v-model="produto.preco" required
-                            placeholder="Informe o Preço do Produto..." />
+                            placeholder="Informe o preço do produto..." />
                     </b-form-group>
                 </b-col>
             </b-row>
@@ -61,7 +61,8 @@ export default {
     data: function() {
         return {
             produto: {segmentacoes: []},
-            options: []
+            options: [],
+            loadSegmentacoes: []
         }
     },
     methods: {
@@ -69,7 +70,7 @@ export default {
             if (this.produto.id) {
                     axios.put(`${baseApiUrl}/produtos/${this.produto.id}`, this.produto)
                     .then(() => {
-                        this.salvarSegmentacoesDoProduto(this.produto.id)
+                        this.salvarSegmentacoes(this.produto.id)
                         this.$toasted.global.defaultSuccess()
                         this.produto = {}
                         this.$router.push({ path: '/produtos' })
@@ -87,26 +88,31 @@ export default {
             }
         },
         salvarSegmentacoes(id) {
-            const array = Array.from(this.produto.segmentacoes)
-            for (var i = 0; i < array.length; i++) {
-                if (array[i].isNew) {
-                    axios.post(`${baseApiUrl}/segmentacoes`, array[i])
+            const segmentacoesProduto = Array.from(this.produto.segmentacoes)
+            for (var i = 0; i < segmentacoesProduto.length; i++) {
+                if (segmentacoesProduto[i].isNew) {
+                    axios.post(`${baseApiUrl}/segmentacoes`, segmentacoesProduto[i])
                     .then(result => {
                         const vinculo = {idproduto: id, idsegmentacao: result.data.id}
                         axios.post(`${baseApiUrl}/produtos/segmentacoes`, vinculo)
                         .catch(showError)
                     })
                     .catch(showError)
-            } else { 
-                const vinculo = {idproduto: id, idsegmentacao: array[i].id}
+            } else {
+                if (!this.loadSegmentacoes.includes(segmentacoesProduto[i])) {
+                    const vinculo = {idproduto: id, idsegmentacao: segmentacoesProduto[i].id}
                         axios.post(`${baseApiUrl}/produtos/segmentacoes`, vinculo)
                         .catch(showError)
+                }
+
+                this.loadSegmentacoes = this.loadSegmentacoes.filter(item => {
+                    return item.id != segmentacoesProduto[i].id
+                })
             }}
-        },
-        salvarSegmentacoesDoProduto(id) {
-            axios.delete(`${baseApiUrl}/produtos/${this.produto.id}/segmentacoes`)
-            .then(this.salvarSegmentacoes(id))
-            .catch(showError)
+
+            this.loadSegmentacoes.forEach(item => {
+                axios.delete(`${baseApiUrl}/produtos/segmentacoes/${item.idvinculo}`)
+            })
         },
         cancelar() {
             this.$router.push({ path: '/produtos' })
@@ -132,6 +138,7 @@ export default {
             axios.get(`${baseApiUrl}/produtos/${this.produto.id}/segmentacoes`)
                 .then(res => {
                     res.data.forEach((option) => {
+                        this.loadSegmentacoes.push(option)
                         this.produto.segmentacoes.push(option)
                     })
                 })

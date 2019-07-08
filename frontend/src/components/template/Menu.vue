@@ -1,6 +1,6 @@
 <template>
     <div class="menu">
-        <router-link to="/pedidos">Pedidos</router-link>
+        <router-link to="/retiradas">Promoções Retiradas</router-link>
         <router-link to="/clientes">Clientes</router-link>
         <router-link to="/produtos">Produtos</router-link>
         <router-link to="/promocoes">Promoções</router-link>

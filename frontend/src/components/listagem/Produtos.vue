@@ -16,26 +16,26 @@
 </template>
 
 <script>
-import { baseApiUrl, showError } from '@/global'
+import { baseApiUrl, showError, chaveFornecedor } from '@/global'
 import axios from 'axios'
 
 export default {
     name: 'Produtos',
     data: function() {
         return {
-            mostrarFormulario: false,
             produtos: [],
             fields: [
                 { key: 'codigo', label: 'Código', sortable: true },
                 { key: 'descricao', label: 'Descrição', sortable: true },
                 { key: 'preco', label: 'Preço', sortable: true },
                 { key: 'actions', label: 'Ações' }
-            ]
+            ],
+            fornecedor: JSON.parse(localStorage.getItem(chaveFornecedor))
         }
     },
     methods: {
         consultaProdutos() {
-            const url = `${baseApiUrl}/produtos/ativos`
+            const url = `${baseApiUrl}/fornecedores/${this.fornecedor.id}/produtos`
             axios.get(url).then(res => {
                 this.produtos = res.data
             })

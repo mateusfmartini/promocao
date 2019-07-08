@@ -6,6 +6,8 @@ exports.up = function(knex, Promise) {
         table.date('vigencia_fim').notNull()
         table.integer('idfornecedor').notNull().references('id').inTable('fornecedor')
         table.string('codigo').notNull()
+        table.string('descricao').notNull()
+        table.string('descricaodetalhada')
         table.decimal('percentual').notNull()
         table.integer('quantidademaxima')
         table.boolean('idnativo').defaultTo(true)

@@ -34,6 +34,37 @@ module.exports = app => {
         })
     }
 
+    const signinCliente = async (req, res) => {
+        if (!req.body.email || !req.body.password) {
+            return res.status(400).send('Informe usuário e senha!')
+        }
+
+        const cliente = await app.db('cliente')
+            .where({ email: req.body.email })
+            .first()
+
+        if (!cliente) return res.status(400).send('Usuário não encontrado!')
+
+        const isMatch = bcrypt.compareSync(req.body.password, cliente.password)
+        if (!isMatch) return res.status(400).send('Email/Senha inválidos!')
+
+        const now = Math.floor(Date.now() / 1000)
+
+        const payload = {
+            id: cliente.id,
+            descricao: cliente.descricao,
+            email: cliente.email,
+            telefone: cliente.telefone,
+            iat: now,
+            exp: now + (60 * 60 * 24 * 3)
+        }
+
+        res.json({
+            ...payload,
+            token: jwt.encode(payload, authSecret)
+        })
+    }
+
     const validateToken = async (req, res) => {
         const userData = req.body || null
         try {
@@ -50,5 +81,5 @@ module.exports = app => {
         res.send(false)
     }
 
-    return { signinFornecedor, validateToken }
+    return { signinFornecedor, signinCliente,  validateToken }
 }

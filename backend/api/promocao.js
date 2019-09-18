@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt-nodejs')
+const queries = require('./queries')
 
 module.exports = app => {
     const { existsOrError, notExistsOrError } = app.api.validation
@@ -53,6 +54,7 @@ module.exports = app => {
     const get = (req, res) => {
         app.db('promocao')
             .select('*')
+            .orderBy('percentual','desc')
             .then(promocoes => res.json(promocoes))
             .catch(err => res.status(500).send(err))
     }
@@ -61,6 +63,7 @@ module.exports = app => {
         app.db('promocao')
             .select('*')
             .where({idnativo: true})
+            .orderBy('percentual','desc')
             .then(promocoes => res.json(promocoes))
             .catch(err => res.status(500).send(err))
     }
@@ -69,6 +72,7 @@ module.exports = app => {
         app.db('promocao')
             .select('*')
             .where({ id: req.params.id}).first()
+            .orderBy('percentual','desc')
             .then(promocao => res.json(promocao))
             .catch(err => res.status(500).send(err))
     }
@@ -77,6 +81,7 @@ module.exports = app => {
         return app.db('promocao')
             .select('*')
             .where({ codigo: req.codigo, idfornecedor: req.idfornecedor }).first()
+            .orderBy('percentual','desc')
             .then(promocao => promocao)
             .catch(err => err)
     }
@@ -85,7 +90,14 @@ module.exports = app => {
         app.db('promocao')
             .select('*')
             .where({ idfornecedor: req.params.id, idnativo: true })
+            .orderBy('percentual','desc')
             .then(promocao => res.json(promocao))
+            .catch(err => res.status(500).send(err))
+    }
+
+    const getFrontendPromocoes = (req, res) => {
+        app.db.raw(queries.frontendPromocoes)
+            .then(promocoes => res.json(promocoes.rows))
             .catch(err => res.status(500).send(err))
     }
     
@@ -119,5 +131,5 @@ module.exports = app => {
         }
     }
 
-    return { save, get, getActive, getById, getByFornecedor, remove, softRemove }
+    return { save, get, getActive, getById, getByFornecedor, getFrontendPromocoes, remove, softRemove }
 }

@@ -67,10 +67,9 @@
                 :tbody-tr-class="rowClass"
                 >                    
                     <template slot="quantidade" slot-scope="data">
-                        <b-form-input id="data-quantidade" v-model="data.item.quantidade" required type="number" />
+                        <b-form-input id="data-quantidade" v-model="data.item.quantidade" required type="number" @change="rowSelected()"/>
                     </template> 
-                </b-table>{{promocao}}<br>
-                {{selected}}
+                </b-table>
             </b-tab>
         </b-tabs>
         </div>
@@ -85,10 +84,10 @@ export default {
     name: 'FormPromocoes',
     data: function() {
         return {
-            selectAll: false,
             promocao: {},
-            produtos: [{codigo:'123', descricao: 'asdsada', quantidade: 5}],
+            produtos: [],
             selected: [],
+            loadProdutos: [],
             fields: [
                 { key: 'codigo', label: 'Código', sortable: true },
                 { key: 'descricao', label: 'Descrição', sortable: true },
@@ -110,7 +109,7 @@ export default {
                 } else {
                     axios.post(`${baseApiUrl}/promocoes`, this.promocao)
                     .then((result) => {
-                        this.salvarProdutos(result.data.id)
+                        this.salvarProdutosDaPromocao(result.data.id)
                         this.$toasted.global.defaultSuccess()
                         this.promocao = {}
                         this.$router.push({ path: '/promocoes' })
@@ -121,14 +120,8 @@ export default {
         cancelar() {
             this.$router.push({ path: '/promocoes' })
         },
-        goToProdutosPromocao() {
-            this.$router.push({ path: '/promocoes/produtos/form' })
-        },
-        rowSelected(items) {
-            items.forEach((item) => {
-                item.idpromocao = this.promocao.id
-            })
-            this.selected = items
+        rowSelected() {
+            this.selected = this.produtos.filter(item => item.quantidade > 0)
         },
         rowClass(item) {
             if (item.quantidade && item.quantidade > 0) return 'table-success'
@@ -136,30 +129,59 @@ export default {
         consultaProdutos() {
             const url = `${baseApiUrl}/fornecedores/${this.promocao.idfornecedor}/produtos`
             axios.get(url).then(res => {
-                this.produtos = res.data
+                let produtosCarregados = res.data
+                    
+                if (this.promocao.id) {
+                this.consultaProdutosDaPromocao().then(produtosDaPromocao => {
+
+                    produtosCarregados = this.carregaInformacoes(res.data, produtosDaPromocao)
+                    this.selected = produtosCarregados.filter(item => item.quantidade > 0)
+                
+                this.produtos = produtosCarregados
+                })} else {
+                    this.produtos = res.data
+                }   
             })
         },
         consultaProdutosDaPromocao() {
             const url = `${baseApiUrl}/promocoes/${this.promocao.id}/produtos`
-            axios.get(url).then(res => {
-                this.rowSelected(res.data)
+            return axios.get(url).then(res => {
+                this.loadProdutos = res.data
+                return res.data
             })
-     
+        },
+        carregaInformacoes(produtos, produtosDaPromocao) {
+            produtos.forEach((produto) => {
+                produtosDaPromocao.forEach(loadProduto => {
+                    if (loadProduto.id == produto.id) {
+                        produto.quantidade = loadProduto.quantidade
+                        produto.idvinculo = loadProduto.idvinculo
+                    }
+                    produto.idpromocao = this.promocao.id
+                })
+            })
+            return produtos
         },
         salvarProdutosDaPromocao(id) {
-            const array = Array.from(this.selected)
-            for (var i = 0; i < array.length; i++) {  
-                const vinculo = {idproduto: array[i].id, idpromocao: id, quantidade: array[i].quantidade}
-                        axios.post(`${baseApiUrl}/promocoes/produtos`, vinculo)
-                        .catch(showError)
+            const arrayProdutos = Array.from(this.selected)
+            for (var i = 0; i < arrayProdutos.length; i++) {  
+                const vinculo = {idproduto: arrayProdutos[i].id, idpromocao: id, quantidade: arrayProdutos[i].quantidade}
+                if (!this.loadProdutos.map(item => item.id).includes(arrayProdutos[i].id)) {
+                    axios.post(`${baseApiUrl}/promocoes/produtos`, vinculo)
+                    .catch(showError)
+                } else {
+                    axios.put(`${baseApiUrl}/promocoes/produtos/${arrayProdutos[i].idvinculo}`, vinculo)
+                    .catch(showError)
+                }
+
+                this.loadProdutos = this.loadProdutos.filter(item => {
+                    return item.id != arrayProdutos[i].id
+                })
             }
-        },
-        selectRow(item) {
-            if (item.quantidade != 0 || item.quantidade != null) {
-                item._rowVariant = "info"
-            } else {
-                item._rowVariant = "default"
-            }
+
+            this.loadProdutos.forEach(item => {
+                axios.delete(`${baseApiUrl}/promocoes/produtos/${item.idvinculo}`)
+            })
         }
     },
     created() {
@@ -175,7 +197,6 @@ export default {
         this.promocao.percentual = this.$route.params.percentual
 
         this.consultaProdutos()
-        this.consultaProdutosDaPromocao()
 
     }
 }

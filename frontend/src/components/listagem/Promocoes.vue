@@ -1,7 +1,7 @@
 <template>
         <div class="promocoes">
         <b-button variant="primary" @click="adicionarPromocoes">Adicionar</b-button>
-        <b-table hover striped :items="promocoes" :fields="fields">
+        <b-table hover striped :items="promocoes" :fields="fields" small> 
             <template slot="actions" slot-scope="data">
                 <b-button v-b-tooltip.hover="{title: 'Editar', delay: 300}" variant="warning" @click="editarPromocao(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>

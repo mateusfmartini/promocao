@@ -24,6 +24,9 @@ module.exports = app => {
         .post(app.api.cliente.save)
         .get(app.api.cliente.get)
 
+    app.route('/clientes/signin')
+        .post(app.api.auth.signinCliente)    
+
     app.route('/clientes/:id')
         .put(app.api.cliente.save)
         .get(app.api.cliente.getById)
@@ -65,7 +68,7 @@ module.exports = app => {
     
     app.route('/promocoes')
         .post(app.api.promocao.save)
-        .get(app.api.promocao.get)
+        .get(app.api.promocao.getActive)
         
     app.route('/promocoes/produtos')
         .post(app.api.promocaoProduto.save)
@@ -76,6 +79,15 @@ module.exports = app => {
         .get(app.api.promocaoProduto.getById)
         .delete(app.api.promocaoProduto.remove) 
 
+    app.route('/promocoes/clientes')
+        .post(app.api.promocaoCliente.save)
+        .get(app.api.promocaoCliente.get)
+
+    app.route('/promocoes/clientes/:id')
+        .put(app.api.promocaoCliente.save)
+        .get(app.api.promocaoCliente.getById)
+        .delete(app.api.promocaoCliente.remove) 
+
     app.route('/promocoes/:id')
         .put(app.api.promocao.save)
         .get(app.api.promocao.getById)
@@ -84,5 +96,18 @@ module.exports = app => {
     app.route('/promocoes/:id/produtos')
         .get(app.api.promocaoProduto.getByPromocao)
         .delete(app.api.promocaoProduto.removeByPromocao)
+
+    app.route('/promocoes/:id/clientes')
+        .get(app.api.promocaoCliente.getByPromocao)
+        .delete(app.api.promocaoCliente.removeByPromocao)
+        
+    app.route('/frontend/promocoes')
+        .get(app.api.promocao.getFrontendPromocoes)
+
+    app.route('/frontend/promocoes/clientes')
+        .get(app.api.promocaoCliente.getFrontendPromocoesClientes)
+    
+    
+    
 
 }

@@ -5,6 +5,7 @@ import Auth from '@/components/auth/Auth.vue'
 import Produtos from '@/components/listagem/Produtos.vue'
 import Promocoes from '@/components/listagem/Promocoes.vue'
 import Clientes from '@/components/listagem/Clientes.vue'
+import Resgates from '@/components/listagem/Resgates.vue'
 import FormProdutos from '@/components/formularios/FormProdutos.vue'
 import FormPromocoes from '@/components/formularios/FormPromocoes.vue'
 
@@ -27,6 +28,10 @@ const routes = [
         name: 'clientes',
         path: '/clientes',
         component: Clientes
+    },{
+        name: 'resgates',
+        path: '/resgates',
+        component: Resgates
     },{
         name: 'auth',
         path: '/auth',

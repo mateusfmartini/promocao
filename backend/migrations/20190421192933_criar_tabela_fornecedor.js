@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
         table.increments('id').primary()
         table.string('descricao').notNull()
         table.string('email').notNull().unique()
-        table.string('telefone')
+        table.bigInteger('telefone')
         table.string('password').notNull()
         table.boolean('idnativo').defaultTo(true)
         table.string('codigoexterno')

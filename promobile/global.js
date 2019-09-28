@@ -1,4 +1,4 @@
-export const baseApiUrl = 'http://179.177.119.112:8443'
+export const baseApiUrl = 'http://192.168.15.3:4000'
 import {AsyncStorage} from 'react-native';
 import axios from 'axios'
 
@@ -7,14 +7,13 @@ export const validateToken = async () => {
         const value = await AsyncStorage.getItem('signin');
         if (value !== null) {
             const userData = JSON.parse(value)
+            if(!userData) {
+                return false
+            }
         }
       } catch (error) {
         alert(error)
       }
-    
-    if(!userData) {
-        return false
-    }
 
     const res = await axios.post(`${baseApiUrl}/validateToken`, userData)
 

@@ -1,7 +1,7 @@
 <template>
     <div class="produtos">
         <b-button variant="primary" @click="adicionarProdutos">Adicionar</b-button>
-        <b-table hover striped :items="produtos" :fields="fields" small>
+        <b-table :stacked="mobile" hover striped :items="produtos" :fields="fields" small>
             <template slot="actions" slot-scope="data">
                 <b-button v-b-tooltip.hover="{title: 'Editar', delay: 300}" variant="warning" @click="editarProduto(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
@@ -24,10 +24,13 @@ export default {
     data: function() {
         return {
             produtos: [],
+            width: window.innerWidth,
             fields: [
                 { key: 'codigo', label: 'Código', sortable: true },
                 { key: 'descricao', label: 'Descrição', sortable: true },
-                { key: 'preco', label: 'Preço', sortable: true },
+                { key: 'preco', label: 'Preço', sortable: true, formatter: value => {
+                    return `R$ ${value.replace('.',',')}`
+                }},
                 { key: 'actions', label: 'Ações' }
             ],
             fornecedor: JSON.parse(localStorage.getItem(chaveFornecedor))
@@ -61,12 +64,25 @@ export default {
                     preco: produto.preco
                     } 
                 })
+        },
+        myEventHandler() {
+            this.width = window.innerWidth
+        }
+    },
+    computed: {
+        mobile() {
+            return this.width < 576 ? true : false
         }
     },
     mounted() {
         this.consultaProdutos()
-
-    }
+    },
+    created() {
+        window.addEventListener("resize", this.myEventHandler);
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.myEventHandler);
+    },
 }
 </script>
 
@@ -74,6 +90,9 @@ export default {
     .produtos > button {
         float: right;
         margin: 0 10px 10px 0;
+    }
+    .table {
+        clear: both;
     }
 
 </style>

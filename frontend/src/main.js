@@ -1,4 +1,5 @@
 import 'font-awesome/css/font-awesome.css'
+import VueTheMask from 'vue-the-mask'
 import Vue from 'vue'
 
 import App from './App'
@@ -9,6 +10,8 @@ import './config/axios'
 
 import store from './config/store'
 import router from './config/router'
+
+Vue.use(VueTheMask)
 
 Vue.config.productionTip = false
 

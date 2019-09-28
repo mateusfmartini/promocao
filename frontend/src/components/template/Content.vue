@@ -33,7 +33,10 @@ export default {
 @media (min-width: 768px) {
 .content {
     margin: 15px 15px 15px 0px;
-    font-size: 18px;
 } }
 
+@media (min-width: 992px) {
+.content {
+    font-size: 18px;
+} }
 </style>

@@ -1,5 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import {StyleSheet, Button, View, TextInput, Text, AsyncStorage, TouchableHighlight, Alert} from 'react-native'
+import { TextInputMask } from 'react-native-masked-text'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import axios from 'axios'
 import { withNavigation } from 'react-navigation';
@@ -54,12 +55,12 @@ class Login extends Component {
             <View style={styles.container}>
             {this.state.registrar ? <TextInput style={styles.text} onChangeText = { descricao => this.setState({descricao}) } placeholder="Nome" textContentType="givenName" /> : null}
             <TextInput style={styles.text} onChangeText = { email => this.setState({email}) } placeholder="E-mail" keyboardType="email-address" textContentType="emailAddress" />
-            {this.state.registrar ? <TextInput style={styles.text} onChangeText = { telefone => this.setState({telefone}) } placeholder="Telefone" keyboardType="phone-pad" textContentType="telephoneNumber" /> : null}
-            <TextInput style={styles.text} onChangeText = { password => this.setState({password}) } placeholder="Senha" keyboardType="visible-password" textContentType="password" />
-            {this.state.registrar ? <TextInput style={styles.text} onChangeText = { passwordConfirm => this.setState({passwordConfirm}) } placeholder="Confimação de Senha" keyboardType="visible-password" textContentType="password" /> : null }
+            {this.state.registrar ? <TextInputMask style={styles.text} placeholder={'Telefone'} keyboardType="phone-pad" type={'cel-phone'} options={{ maskType: 'BRL', withDDD: true, dddMask: '(99) '}} value={this.state.telefone}  onChangeText={text => {this.setState({telefone: text}) }}/> : null}
+            <TextInput style={styles.text} secureTextEntry={true} onChangeText = { password => this.setState({password}) } placeholder="Senha" textContentType="password" />
+            {this.state.registrar ? <TextInput style={styles.text} secureTextEntry={true}  onChangeText = { passwordConfirm => this.setState({passwordConfirm}) } placeholder="Confimação de Senha" textContentType="password" /> : null }
             {this.state.registrar ? <Button onPress={ () => {this.signup()} } title="Registrar-se" /> : <Button onPress={ () => {this.signin()} } title="Entrar" />}
             <TouchableHighlight style={styles.toggleText} onPress={() => {this.setState({registrar: !this.state.registrar})}}>
-                {this.state.registrar ? <Text>Já tem uma conta?</Text> : <Text>Ainda não tem uma conta?</Text>}
+            <Text>{this.state.registrar ? "Já tem uma conta?" : "Ainda não tem uma conta?"}</Text>
             </TouchableHighlight>
             </View>
         </View>
@@ -72,7 +73,7 @@ var styles = StyleSheet.create({
         margin: 10
     },
     header: {
-        marginVertical: 5,
+        marginVertical: 10,
         display: 'flex',
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -80,7 +81,7 @@ var styles = StyleSheet.create({
     icon: {
         alignSelf: 'center',
         justifyContent: 'flex-start',
-        marginLeft:5
+        marginLeft:10
     },
     headerText: {
         fontWeight: 'bold',
@@ -101,7 +102,7 @@ var styles = StyleSheet.create({
         marginBottom: 20,
     },
     toggleText: {
-        marginTop: 5
+        marginTop: 15,
     }
 })
 

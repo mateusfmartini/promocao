@@ -6,7 +6,7 @@
 
         <input v-if="showSignup" v-model="fornecedor.descricao" type="text" placeholder="Nome da empresa">
         <input v-model="fornecedor.email" name="email" type="email" placeholder="E-mail">
-        <input v-if="showSignup" v-model="fornecedor.telefone" name="telefone" type="tel" placeholder="Telefone">
+        <the-mask v-if="showSignup" v-model="fornecedor.telefone" name="telefone" type="tel" placeholder="Telefone" :mask="['(##) ####-####', '(##) #####-####']" />
         <input v-model="fornecedor.password" name="password" type="password" placeholder="Senha">
         <input v-if="showSignup" v-model="fornecedor.passwordConfirm"
             type="password" placeholder="Confirme a Senha">

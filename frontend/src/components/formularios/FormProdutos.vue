@@ -21,7 +21,7 @@
                     </b-form-group>
                 </b-col>
                 <b-col sm="6">
-                    <b-form-group label="Preço:" label-for="produto-preco">
+                    <b-form-group label="Preço (R$):" label-for="produto-preco">
                         <b-form-input id="produto-preco" type="number"
                             v-model="produto.preco" required
                             placeholder="Informe o preço do produto..." />

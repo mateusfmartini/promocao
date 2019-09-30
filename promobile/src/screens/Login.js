@@ -35,13 +35,14 @@ class Login extends Component {
 
     signup = async () => {
         try {
-            await axios.post(`${baseApiUrl}/clientes`, this.state)
+            await axios.post(`${baseApiUrl}/clientes`, {...this.state, telefone: this.phone.getRawValue()})
             Alert.alert('','Cadastro realizado com sucesso!')
             this.signin()
         } catch(err) {
             alert(err)
         }
     }
+
     
     render() {
         return (
@@ -55,13 +56,14 @@ class Login extends Component {
             <View style={styles.container}>
             {this.state.registrar ? <TextInput style={styles.text} onChangeText = { descricao => this.setState({descricao}) } placeholder="Nome" textContentType="givenName" /> : null}
             <TextInput style={styles.text} onChangeText = { email => this.setState({email}) } placeholder="E-mail" keyboardType="email-address" textContentType="emailAddress" />
-            {this.state.registrar ? <TextInputMask style={styles.text} placeholder={'Telefone'} keyboardType="phone-pad" type={'cel-phone'} options={{ maskType: 'BRL', withDDD: true, dddMask: '(99) '}} value={this.state.telefone}  onChangeText={text => {this.setState({telefone: text}) }}/> : null}
+            {this.state.registrar ? <TextInputMask style={styles.text} placeholder={'Telefone'} keyboardType="phone-pad" type={'cel-phone'} options={{ maskType: 'BRL', withDDD: true, dddMask: '(99) '}} value={this.state.telefone}  onChangeText={text => {this.setState({telefone: text}) }} ref={(ref) => this.phone = ref}/> : null}
             <TextInput style={styles.text} secureTextEntry={true} onChangeText = { password => this.setState({password}) } placeholder="Senha" textContentType="password" />
             {this.state.registrar ? <TextInput style={styles.text} secureTextEntry={true}  onChangeText = { passwordConfirm => this.setState({passwordConfirm}) } placeholder="Confimação de Senha" textContentType="password" /> : null }
             {this.state.registrar ? <Button onPress={ () => {this.signup()} } title="Registrar-se" /> : <Button onPress={ () => {this.signin()} } title="Entrar" />}
             <TouchableHighlight style={styles.toggleText} onPress={() => {this.setState({registrar: !this.state.registrar})}}>
             <Text>{this.state.registrar ? "Já tem uma conta?" : "Ainda não tem uma conta?"}</Text>
             </TouchableHighlight>
+            <Text>{this.rawValue}</Text>
             </View>
         </View>
         )

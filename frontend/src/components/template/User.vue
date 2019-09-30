@@ -1,8 +1,10 @@
 <template>
         <div class="user px-2">
-            <router-link to="/"><div class="user-img">
-                <div v-if="fornecedor.descricao" class="name">{{fornecedor.descricao}}</div>
-            </div></router-link>
+            <router-link to="/">
+                <div class="user-img">
+                    <div v-if="fornecedor.descricao" class="name">{{fornecedor.descricao}}</div>
+                </div>
+            </router-link>
             <div class="user-info mt-3 pl-2">
                 <p v-if="fornecedor.email" class="email">
                     <i class="fa fa-envelope text-primary"></i>
@@ -10,7 +12,7 @@
                 </p>
                 <p v-if="fornecedor.telefone" class="telefone">
                     <i class="fa fa-phone text-primary"></i>
-                    {{fornecedor.telefone}}
+                    {{maskedPhone}}
                 </p>
             </div>
         </div>
@@ -25,7 +27,12 @@ export default {
             imageUrl: null
         }    
     },
-    computed: mapState(['fornecedor'])
+    computed: {
+        ...mapState(['fornecedor']),
+        maskedPhone() {
+            return this.fornecedor.telefone.replace(/(.{2})/, '($1) ').replace(/(.{4}$)/, '-$1')
+        }
+    }
 }
 </script>
 

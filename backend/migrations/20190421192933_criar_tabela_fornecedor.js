@@ -6,6 +6,7 @@ exports.up = function(knex, Promise) {
         table.string('email').notNull().unique()
         table.bigInteger('telefone')
         table.string('password').notNull()
+        table.binary('imagem')
         table.boolean('idnativo').defaultTo(true)
         table.string('codigoexterno')
     })

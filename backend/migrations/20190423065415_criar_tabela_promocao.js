@@ -10,6 +10,7 @@ exports.up = function(knex, Promise) {
         table.string('descricaodetalhada')
         table.decimal('percentual').notNull()
         table.integer('quantidademaxima')
+        table.binary('imagem')
         table.boolean('idnativo').defaultTo(true)
         table.string('codigoexterno')
     })

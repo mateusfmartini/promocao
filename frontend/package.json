@@ -12,6 +12,7 @@
     "bootstrap-vue": "^2.0.0-rc.19",
     "core-js": "^2.6.5",
     "font-awesome": "^4.7.0",
+    "v-file-upload": "^3.1.7",
     "v-money": "^0.8.1",
     "vue": "^2.6.10",
     "vue-multiselect": "^2.1.6",

@@ -61,5 +61,12 @@ module.exports = {
 	(select descricao from cliente where id = pc.idcliente) as nomecliente,
 	(select codigo from promocao where id = pc.idpromocao) as codigocupom
     from promocaocliente pc
+    `,
+    fornecedorSignIn:`
+    select 
+	*,
+	encode(imagem,'escape') as imagembase64
+    from fornecedor
+    where email = ?
     `
 }

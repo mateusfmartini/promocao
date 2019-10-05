@@ -15,6 +15,7 @@ module.exports = app => {
             telefone: req.body.telefone,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
+            imagem: req.body.imagem,
             idnativo: req.body.idnativo,
             codigoexterno: req.body.codigoexterno
         }

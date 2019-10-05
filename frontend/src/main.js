@@ -1,6 +1,7 @@
 import 'font-awesome/css/font-awesome.css'
-import VueTheMask from 'vue-the-mask'
+
 import Vue from 'vue'
+import VueTheMask from 'vue-the-mask'
 
 import App from './App'
 

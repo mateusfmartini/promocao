@@ -13,9 +13,9 @@ module.exports = app => {
             descricao: req.body.descricao,
             email: req.body.email,
             telefone: req.body.telefone,
+            imagem: req.body.imagem,
             password: req.body.password,
             passwordConfirm: req.body.passwordConfirm,
-            imagem: req.body.imagem,
             idnativo: req.body.idnativo,
             codigoexterno: req.body.codigoexterno
         }
@@ -39,9 +39,10 @@ module.exports = app => {
             return res.status(400).send(msg)
         } }
     
-
-        fornecedor.password = encryptPassword(fornecedor.password)
-        delete fornecedor.passwordConfirm
+        if (fornecedor.password) {
+            fornecedor.password = encryptPassword(fornecedor.password)
+            delete fornecedor.passwordConfirm
+        }
         
         if(fornecedor.id) {
             app.db('fornecedor')

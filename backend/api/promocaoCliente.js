@@ -48,8 +48,8 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    const getFrontendPromocoesClientes = (req, res) => {
-        app.db.raw(queries.frontendPromocoesClientes)
+    const getFornecedoresPromocoesClientes = (req, res) => {
+        app.db.raw(queries.fornecedoresPromocoesClientes,req.params.id)
             .then(registros => res.json(registros.rows))
             .catch(err => res.status(500).send(err))
     }
@@ -79,5 +79,5 @@ module.exports = app => {
         }
     }
 
-    return { save, get, getById, getByPromocao, remove, removeByPromocao, getFrontendPromocoesClientes }
+    return { save, get, getById, getByPromocao, remove, removeByPromocao, getFornecedoresPromocoesClientes }
 }

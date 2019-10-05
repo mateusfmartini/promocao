@@ -1,31 +1,37 @@
 <template>
-    <b-table :stacked="mobile" hover striped :items="clientes" :fields="fields" small>
-        <template slot="actions" slot-scope="data">
-                <a :href="'tel:'+ data.item.telefone">
-                <b-button v-b-tooltip.hover="{title: 'Ligar', delay: 300}" variant="success" class="mr-2">
-                    <i class="fa fa-phone"></i>
-                </b-button>
-                </a>
-                <a :href="'mailto:'+ data.item.email">
-                <b-button v-b-tooltip.hover="{title: 'Enviar e-mail', delay: 300}" variant="success" class="mr-2">
-                    <i class="fa fa-envelope"></i>
-                </b-button>
-                </a>
-                <a :href="'sms:/'+ data.item.telefone">
-                <b-button v-b-tooltip.hover="{title: 'Enviar mensagem', delay: 300}" variant="success" class="mr-2">
-                    <i class="fa fa-comment"></i>
-                </b-button>
-                </a>
-        </template>
-    </b-table>
+    <div class="clientes">
+        <PageTitle icon="fa fa-users" main="Clientes" 
+        sub="Entre em contato com seus clientes"/>
+        <b-table :stacked="mobile" hover striped :items="clientes" :fields="fields" small>
+            <template slot="actions" slot-scope="data">
+                    <a :href="'tel:'+ data.item.telefone">
+                    <b-button v-b-tooltip.hover="{title: 'Ligar', delay: 300}" variant="success" class="mr-2">
+                        <i class="fa fa-phone"></i>
+                    </b-button>
+                    </a>
+                    <a :href="'mailto:'+ data.item.email">
+                    <b-button v-b-tooltip.hover="{title: 'Enviar e-mail', delay: 300}" variant="success" class="mr-2">
+                        <i class="fa fa-envelope"></i>
+                    </b-button>
+                    </a>
+                    <a :href="'sms:/'+ data.item.telefone">
+                    <b-button v-b-tooltip.hover="{title: 'Enviar mensagem', delay: 300}" variant="success" class="mr-2">
+                        <i class="fa fa-comment"></i>
+                    </b-button>
+                    </a>
+            </template>
+        </b-table>
+    </div>
 </template>
 
 <script>
+import PageTitle from '@/components/template/PageTitle.vue'
 import { baseApiUrl } from '@/global'
 import axios from 'axios'
 
 export default {
     name: 'Clientes',
+    components: { PageTitle },
     data: function() {
         return {
             clientes: [],

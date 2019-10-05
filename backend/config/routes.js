@@ -23,6 +23,10 @@ module.exports = app => {
     app.route('/fornecedores/:id/promocoes')
         .get(app.api.promocao.getByFornecedor)
 
+    app.route('/fornecedores/:id/promocoes/clientes')
+        .get(app.api.promocaoCliente.getFornecedoresPromocoesClientes)
+    
+
     app.route('/clientes')
         .post(app.api.cliente.save)
         .get(app.api.cliente.get)
@@ -110,9 +114,7 @@ module.exports = app => {
     app.route('/frontend/promocoes')
         .get(app.api.promocao.getFrontendPromocoes)
 
-    app.route('/frontend/promocoes/clientes')
-        .get(app.api.promocaoCliente.getFrontendPromocoesClientes)
-    
+
     
     
 

@@ -1,5 +1,7 @@
 <template>
     <div class="produtos">
+        <PageTitle icon="fa fa-cube" main="Produtos" 
+        sub="Cadastre seus produtos"/>
         <b-button variant="primary" @click="adicionarProdutos">Adicionar</b-button>
         <b-table :stacked="mobile" hover striped :items="produtos" :fields="fields" small>
             <template slot="actions" slot-scope="data">
@@ -16,11 +18,13 @@
 </template>
 
 <script>
+import PageTitle from '@/components/template/PageTitle.vue'
 import { baseApiUrl, showError, chaveFornecedor } from '@/global'
 import axios from 'axios'
 
 export default {
     name: 'Produtos',
+    components: { PageTitle },
     data: function() {
         return {
             produtos: [],

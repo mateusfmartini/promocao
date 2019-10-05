@@ -1,7 +1,6 @@
 const { authSecret } = require('../.env')
 const jwt = require('jwt-simple')
 const bcrypt = require('bcrypt-nodejs')
-const queries = require('./queries')
 
 module.exports = app => {
     const signinFornecedor = async (req, res) => {
@@ -9,8 +8,9 @@ module.exports = app => {
             return res.status(400).send('Informe usuário e senha!')
         }
 
-        let fornecedor = await app.db.raw(queries.fornecedorSignIn, req.body.email)
-        fornecedor = fornecedor.rows[0]
+        const fornecedor = await app.db('fornecedor')
+            .where({ email: req.body.email })
+            .first()
 
         if (!fornecedor) return res.status(400).send('Usuário não encontrado!')
 
@@ -24,7 +24,6 @@ module.exports = app => {
             descricao: fornecedor.descricao,
             email: fornecedor.email,
             telefone: fornecedor.telefone,
-            imagem: fornecedor.imagembase64,
             iat: now,
             exp: now + (60 * 60 * 24 * 3)
         }

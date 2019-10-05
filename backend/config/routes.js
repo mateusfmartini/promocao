@@ -14,6 +14,9 @@ module.exports = app => {
         .get(app.api.fornecedor.getById)
         .delete(app.api.fornecedor.remove)
     
+    app.route('/fornecedores/:id/imagem')
+        .get(app.api.fornecedor.getImagem)
+    
     app.route('/fornecedores/:id/produtos')
         .get(app.api.produto.getByFornecedor)
 
@@ -100,6 +103,9 @@ module.exports = app => {
     app.route('/promocoes/:id/clientes')
         .get(app.api.promocaoCliente.getByPromocao)
         .delete(app.api.promocaoCliente.removeByPromocao)
+
+    app.route('/dashboard/:id')
+        .get(app.api.dashboard.dashboard)
         
     app.route('/frontend/promocoes')
         .get(app.api.promocao.getFrontendPromocoes)

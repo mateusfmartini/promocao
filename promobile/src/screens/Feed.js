@@ -64,7 +64,7 @@ class Feed extends React.Component {
                         descricaoDetalhada={promocao.descricaodetalhada}
                         codigo={promocao.codigo}
                         percentual={promocao.percentual}
-                        quantidadeMaxima={promocao.quantidademaxima} 
+                        qtdFaltante={promocao.qtdfaltante} 
                         produtos={promocao.produtos}
                         precoTotal={promocao.precototal}
                         precoComDesconto={promocao.precocomdesconto}

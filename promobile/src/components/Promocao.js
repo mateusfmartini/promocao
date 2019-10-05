@@ -28,7 +28,7 @@ class Promocao extends Component {
                 <View style={[styles.marginVertical,styles.innerContainer]}>
                     <Text style={styles.percentage}>{parseFloat(this.props.percentual).toFixed(0)}%</Text>
                     <View style={styles.tagsContainer}>
-                    { this.props.quantidadeMaxima ? <Text style={styles.tag}>{this.props.quantidadeMaxima} cupons disponíveis</Text> : null }
+                    { this.props.qtdFaltante ? <Text style={styles.tag}>{this.props.qtdFaltante} cupons disponíveis</Text> : null }
                     </View>
                 </View>
                 {
@@ -39,7 +39,9 @@ class Promocao extends Component {
                     <Text style={[styles.marginVertical,styles.priceLabel]}>De <Text style={styles.priceBefore}>R${parseFloat(this.props.precoTotal).toFixed(2)}</Text> por <Text style={styles.priceAfter}>R${parseFloat(this.props.precoComDesconto).toFixed(2)}</Text></Text>
                 <View style={[styles.marginTop,styles.end]}>
                     <Text style={styles.company}>{this.props.nomeFornecedor}</Text>
-                    <Button style={styles.button} onPress={ () => {this.resgatarPromocao()} } title="Retirar promoção" />
+                { this.props.qtdFaltante||this.props.qtdFaltante==NaN ? 
+                <Button style={styles.button} onPress={ () => {this.resgatarPromocao()} } title="Retirar promoção" /> 
+                : <Text>Promoção Encerrada</Text> }
                 </View>
             </View>
         )

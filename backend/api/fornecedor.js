@@ -1,4 +1,6 @@
 const bcrypt = require('bcrypt-nodejs')
+const queries = require('./queries')
+
 
 module.exports = app => {
     const { existsOrError, notExistsOrError, equalsOrError } = app.api.validation
@@ -73,6 +75,12 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
+    const getImagem = (req, res) => {
+        app.db.raw(queries.imagemFornecedor, req.params.id)
+            .then(imagem => res.json(imagem.rows[0]))
+            .catch(err => res.status(500).send(err))
+    }
+
     const remove = async (req, res) => {
         try {
             existsOrError(req.params.id, 'Código do fornecedor não informado.')
@@ -87,5 +95,5 @@ module.exports = app => {
         }
     }
 
-    return { save, get, getById, remove }
+    return { save, get, getById, getImagem, remove }
 }

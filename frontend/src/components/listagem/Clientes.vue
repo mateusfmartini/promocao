@@ -1,9 +1,19 @@
 <template>
     <b-table :stacked="mobile" hover striped :items="clientes" :fields="fields" small>
         <template slot="actions" slot-scope="data">
+                <a :href="'tel:'+ data.item.telefone">
+                <b-button v-b-tooltip.hover="{title: 'Ligar', delay: 300}" variant="success" class="mr-2">
+                    <i class="fa fa-phone"></i>
+                </b-button>
+                </a>
                 <a :href="'mailto:'+ data.item.email">
-                <b-button v-b-tooltip.hover="{title: 'Enviar e-mail', delay: 300}" variant="warning" class="mr-2">
+                <b-button v-b-tooltip.hover="{title: 'Enviar e-mail', delay: 300}" variant="success" class="mr-2">
                     <i class="fa fa-envelope"></i>
+                </b-button>
+                </a>
+                <a :href="'sms:/'+ data.item.telefone">
+                <b-button v-b-tooltip.hover="{title: 'Enviar mensagem', delay: 300}" variant="success" class="mr-2">
+                    <i class="fa fa-comment"></i>
                 </b-button>
                 </a>
         </template>

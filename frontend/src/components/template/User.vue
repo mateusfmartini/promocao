@@ -1,7 +1,7 @@
 <template>
         <div class="user px-2">
             <router-link to="/">
-                <img class="user-img" :src="fornecedor.imagem">
+                <img class="user-img" :src="imagem">
             </router-link>
                     <div v-if="fornecedor.descricao" class="name">
                         {{fornecedor.descricao}}
@@ -18,7 +18,6 @@
                 </p>
             </div>
             <input class="image-file" type="file" v-on:change="persistImage()"/>
-            {{image}}
         </div>
 </template>
 
@@ -31,7 +30,7 @@ export default {
     name: 'User',
     data: function() {
         return { 
-            image: null,
+            imagem: null,
         }    
     },
     methods: {
@@ -58,6 +57,7 @@ export default {
             )},
         persistImage () {
             this.onFileChange().then(res => {
+                this.$store.commit('removeImagem')
                 axios.put(`${baseApiUrl}/fornecedores/${this.fornecedor.id}`, {imagem: res})
                     .then(() => {
                         this.$toasted.global.defaultSuccess()
@@ -71,6 +71,13 @@ export default {
         maskedPhone() {
             return this.fornecedor.telefone.replace(/(.{2})/, '($1) ').replace(/(.{4}$)/, '-$1')
         }
+    },
+    created() {
+        axios.get(`${baseApiUrl}/fornecedores/${this.fornecedor.id}/imagem`)
+            .then(res => {
+                this.imagem = res.data.imagem
+            })
+            .catch(showError)
     }
 }
 </script>
@@ -91,33 +98,35 @@ export default {
     color: black;
 }
 .user-img {
-    height: 150px;
-
+    margin-top: 10px;
+    max-height: 100px;
+    max-width: 100%;
+    border-radius: 5px;
     background-repeat: no-repeat;
-    background-size: 150px 100%;
     background-position: center center;
     justify-content: center;
 }
 
 .user-info {
     font-size: 14px;
+    align-self: flex-start;
 }
 
 @media (min-width: 992px) {
     .user-img {
-    min-height: 200px;
-    background-size: 200px 100%;
+    max-height: 150px;
+    max-width: 100%;
     }
 
     .user-info {
     font-size: 18px;
-    align-self: flex-start;
-}
+    }
 }
 
 .name {
+    margin-top: 5px;
     background-color: #A4E7FF88;
-    border-radius: 12px;
+    border-radius: 5px;
     padding: 5px 10px;
     font-size: 22px;
     font-weight: 600;

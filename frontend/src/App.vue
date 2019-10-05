@@ -90,4 +90,9 @@ export default {
 			"footer";
 }
 
+#app.login > .content {
+	background-image: url('./assets/login-background.png');
+	background-size: cover;
+}
+
 </style>

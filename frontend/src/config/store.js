@@ -16,6 +16,9 @@ export default new Vuex.Store({
             } else {
                 delete axios.defaults.headers.common['Authorization']
             }
+        },
+        removeImagem(state){
+            state.fornecedor.imagem = null
         }
     }
 })

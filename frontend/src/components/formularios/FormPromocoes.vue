@@ -61,7 +61,8 @@
                 </b-form>
             </b-tab>
             <b-tab title="Produtos">
-                <b-table
+                <b-table 
+                :stacked="mobile"
                 :items="produtos"
                 :fields="fields"
                 :tbody-tr-class="rowClass"
@@ -84,6 +85,7 @@ export default {
     name: 'FormPromocoes',
     data: function() {
         return {
+            width: window.innerWidth,
             promocao: {},
             produtos: [],
             selected: [],
@@ -182,9 +184,19 @@ export default {
             this.loadProdutos.forEach(item => {
                 axios.delete(`${baseApiUrl}/promocoes/produtos/${item.idvinculo}`)
             })
+        },
+        myEventHandler() {
+            this.width = window.innerWidth
+        }
+        
+    },
+    computed: {
+        mobile() {
+            return this.width < 576 ? true : false
         }
     },
     created() {
+        window.addEventListener("resize", this.myEventHandler);
         this.promocao.idfornecedor = JSON.parse(localStorage.getItem(chaveFornecedor)).id
 
         this.promocao.id = this.$route.params.id
@@ -198,7 +210,10 @@ export default {
 
         this.consultaProdutos()
 
-    }
+    },
+    destroyed() {
+        window.removeEventListener("resize", this.myEventHandler);
+    },
 }
 </script>
 

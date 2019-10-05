@@ -1,6 +1,6 @@
 <template>
     <div class="auth-modal">
-        <img src="@/assets/logo.png" width="200" alt="Logo" />
+        <img src="@/assets/logo.png" width="150" alt="Logo" />
         <hr>
         <div class="auth-title">{{ showSignup ? 'Cadastro' : 'Login' }}</div>
 
@@ -68,6 +68,12 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        background-color: #FFF;
+        padding:25px;
+        border-radius: 12px 12px 12px 12px;
+        -moz-border-radius: 12px 12px 12px 12px;
+        -webkit-border-radius: 12px 12px 12px 12px;
+        border: 1px solid #707070;
     }
 
     .auth-title {
@@ -90,6 +96,8 @@ export default {
         background-color: #2460ae;
         color: #FFF;
         padding: 5px 15px;
+        border: 0;
+        border-radius: 5px;
     }
 
     .auth-modal a {

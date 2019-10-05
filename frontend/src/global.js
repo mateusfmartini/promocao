@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 export const chaveFornecedor = '__promocao_fornecedor'
-export const baseApiUrl = 'http://localhost:4000'
+export const baseApiUrl = 'http://192.168.15.6:4000'
 
 export function showError(e) {
     if(e && e.response && e.response.data) {

@@ -22,6 +22,16 @@
                                     placeholder="Informe a descrição da promoção..." />
                             </b-form-group>
                         </b-col>
+                        <b-col sm="12">
+                            <b-form-group label="Imagem:" label-for="promocao-imagem">
+                                <b-form-file
+                                v-model="file"
+                                :state="Boolean(file)"
+                                placeholder="Selecione um aquivo ou arraste para aqui..."
+                                drop-placeholder="Arraste para aqui..."
+                                ></b-form-file>
+                            </b-form-group>
+                        </b-col>
                         <b-col md="4" sm="12">
                             <b-form-group label="Data de Início:" label-for="promocao-vigencia_ini">
                                 <b-form-input id="promocao-vigencia_ini" type="date"
@@ -87,6 +97,7 @@ export default {
         return {
             width: window.innerWidth,
             promocao: {},
+            file: '',
             produtos: [],
             selected: [],
             loadProdutos: [],
@@ -187,12 +198,32 @@ export default {
         },
         myEventHandler() {
             this.width = window.innerWidth
-        }
+        },
+        onFileChange (file) {
+            return new Promise(function(resolve) {
+                var FR = new FileReader();
         
+                FR.onload = function (e) {
+                    resolve(e.target.result)
+                }
+
+                    FR.readAsDataURL(file);
+            }
+        )},
+        persistImage (file) {
+            this.onFileChange(file).then(res => {
+                this.promocao.imagem = res
+            })
+        }        
     },
     computed: {
         mobile() {
             return this.width < 576 ? true : false
+        }
+    },
+    watch: {
+        file: function (val) {
+            this.persistImage(val)
         }
     },
     created() {
@@ -207,6 +238,7 @@ export default {
         this.promocao.quantidademaxima = this.$route.params.quantidademaxima
         this.promocao.codigo = this.$route.params.codigo
         this.promocao.percentual = this.$route.params.percentual
+        
 
         this.consultaProdutos()
 

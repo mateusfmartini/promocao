@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Alert, Text, Button, StyleSheet} from 'react-native'
+import {View, Image, Alert, Text, Button, StyleSheet} from 'react-native'
 import axios from 'axios'
 import {baseApiUrl} from '../../global'
 
@@ -20,7 +20,7 @@ class Promocao extends Component {
         return (
             <View style={styles.container} >
                 <Text style={[styles.name, styles.marginBottom]}>{this.props.descricao}</Text>
-                
+                <Image style={styles.image} resizeMode={'contain'} source={{uri: this.props.imagem}}/>
                 <Text style={[styles.marginVertical,styles.description]}>
                 {this.props.descricaoDetalhada}
                 </Text>
@@ -39,7 +39,7 @@ class Promocao extends Component {
                     <Text style={[styles.marginVertical,styles.priceLabel]}>De <Text style={styles.priceBefore}>R${parseFloat(this.props.precoTotal).toFixed(2)}</Text> por <Text style={styles.priceAfter}>R${parseFloat(this.props.precoComDesconto).toFixed(2)}</Text></Text>
                 <View style={[styles.marginTop,styles.end]}>
                     <Text style={styles.company}>{this.props.nomeFornecedor}</Text>
-                { this.props.qtdFaltante||this.props.qtdFaltante==NaN ? 
+                { this.props.qtdFaltante!=0||!this.props.qtdFaltante ? 
                 <Button style={styles.button} onPress={ () => {this.resgatarPromocao()} } title="Retirar promoção" /> 
                 : <Text>Promoção Encerrada</Text> }
                 </View>
@@ -132,6 +132,11 @@ const styles = StyleSheet.create({
     },
     button: {
         flex: 1
+    },
+    image: {
+        height: 100,
+        borderRadius: 10,
+        
     },
     marginVertical: {
         marginVertical: 3

@@ -57,7 +57,6 @@ export default {
             )},
         persistImage () {
             this.onFileChange().then(res => {
-                this.$store.commit('removeImagem')
                 axios.put(`${baseApiUrl}/fornecedores/${this.fornecedor.id}`, {imagem: res})
                     .then(() => {
                         this.$toasted.global.defaultSuccess()

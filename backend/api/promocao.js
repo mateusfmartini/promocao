@@ -14,6 +14,7 @@ module.exports = app => {
             descricaodetalhada: req.body.descricaodetalhada,
             percentual: req.body.percentual,
             quantidademaxima: req.body.quantidademaxima,
+            imagem: req.body.imagem,
             idnativo: req.body.idnativo,
             codigoexterno: req.body.codigoexterno
         }

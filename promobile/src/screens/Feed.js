@@ -62,6 +62,7 @@ class Feed extends React.Component {
                         id={promocao.id}
                         descricao={promocao.descricao}
                         descricaoDetalhada={promocao.descricaodetalhada}
+                        imagem={promocao.imagembase64}
                         codigo={promocao.codigo}
                         percentual={promocao.percentual}
                         qtdFaltante={promocao.qtdfaltante} 

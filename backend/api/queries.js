@@ -18,10 +18,25 @@ module.exports = {
         from
             promocaoproduto pp
         inner join produto prod on
-            prod.id = pp.idproduto) 
-            select
-            p.*,
-            (select descricao from fornecedor where id = p.idfornecedor) as nomefornecedor,
+            prod.id = pp.idproduto) select
+            p.id,
+            p.vigencia_ini,
+            p.vigencia_fim,
+            p.idfornecedor,
+            p.codigo,
+            p.descricao,
+            p.descricaodetalhada,
+            p.percentual,
+            p.quantidademaxima,
+            encode(p.imagem, 'escape') as imagembase64,
+            p.idnativo,
+            p.codigoexterno,
+            (
+                select descricao
+            from
+                fornecedor
+            where
+                id = p.idfornecedor) as nomefornecedor,
             (
             select
                 array_to_json(array_agg(row_to_json(sub)))
@@ -41,12 +56,18 @@ module.exports = {
             where
                 teste.idpromocao = p.id ) as precototal,
             (
-                select sum(teste.quantidade * teste.preco) * (1 - p.percentual / 100)
+            select
+                sum(teste.quantidade * teste.preco) * (1 - p.percentual / 100)
             from
                 teste
             where
                 teste.idpromocao = p.id ) as precocomdesconto,
-            (select p.quantidademaxima - count(*) from promocaocliente pc where pc.idpromocao = p.id) as qtdfaltante
+            (
+                select p.quantidademaxima - count(*)
+            from
+                promocaocliente pc
+            where
+                pc.idpromocao = p.id) as qtdfaltante
         from
             promocao p
     `,

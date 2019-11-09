@@ -8,19 +8,21 @@ import {
 import Icon from 'react-native-vector-icons/FontAwesome'
 import {Gravatar} from 'react-native-gravatar'
 
-const Header = props => {
-		return (
+class Header extends Component {
+	render() {
+			return (
 				<View style={styles.container}>
-						<Icon name="bars" size={30} color="gray" onPress={ () => props.navigation.toggleDrawer() }/>
+						<Icon name="bars" size={30} color="gray" onPress={ () => this.props.navigation.toggleDrawer() }/>
 						<Text>Promobile</Text>
 						{
-							props.email ? 
-							<Gravatar options={{email: props.email,secure: true}} style={styles.roundedProfileImage} /> 
-							: <Button onPress={ () => props.navigation.navigate('Login') } title="Entrar" />
+							this.props.email ? 
+							<Gravatar options={{email: this.props.email,secure: true}} style={styles.roundedProfileImage} /> 
+							: <Button onPress={ () => this.props.navigation.navigate('Login') } title="Entrar" />
 						}
 				</View>
-		)
-}
+			)
+		}
+	}
 
 var styles = StyleSheet.create({
 		roundedProfileImage: {

@@ -2,7 +2,12 @@
     <div class="resgates">
     <PageTitle icon="fa fa-shopping-cart" main="Promoções Retiradas" 
         sub="Consulte os clientes que retiraram suas promoções"/>
-    <b-table :stacked="mobile" hover striped :items="resgates" :fields="fields" small></b-table>
+    <b-col class="filtro">
+        <b-form-input id="filter" type="text"
+            v-model="filter"
+            placeholder="Pesquisar ..." />
+    </b-col>    
+    <b-table :stacked="mobile" hover striped :items="resgates" :filter="filter" :fields="fields" small></b-table>
     </div>
 </template>
 
@@ -18,6 +23,7 @@ export default {
         return {
             resgates: [],
             width: window.innerWidth,
+            filter: '',
             fields: [
                 { key: 'codigocupom', label: 'Código do Cupom', sortable: true },
                 { key: 'nomecliente', label: 'Cliente', sortable: true, class: 'word-wrap'},

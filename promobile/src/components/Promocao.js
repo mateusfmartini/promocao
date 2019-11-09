@@ -4,6 +4,25 @@ import axios from 'axios'
 import {baseApiUrl} from '../../global'
 
 class Promocao extends Component {
+    state = {
+        promocaoRetirada: false,
+        gifCarregando: true
+    }
+
+    validarPromocaoRetirada = async () => {
+        try {
+            const clientesDaPromocao = await axios.get(`${baseApiUrl}/promocoes/${this.props.id}/clientes`)
+            clientesDaPromocao.data.map((cliente) => {
+                if (this.props.clienteLogadoId == cliente.id) {
+                    this.state.promocaoRetirada = true
+                } 
+            })
+            this.state.gifCarregando = false
+        } catch (err) {
+            alert(err)
+        }
+    }
+
     resgatarPromocao = async () => {
         if (!this.props.clienteLogadoId) {
           this.props.navigation.navigate('Login')
@@ -16,6 +35,10 @@ class Promocao extends Component {
             }
         }
       }
+
+    componentDidUpdate = async () => {
+    await this.validarPromocaoRetirada()
+    }
     render() {
         return (
             <View style={styles.container} >
@@ -39,9 +62,16 @@ class Promocao extends Component {
                     <Text style={[styles.marginVertical,styles.priceLabel]}>De <Text style={styles.priceBefore}>R${parseFloat(this.props.precoTotal).toFixed(2)}</Text> por <Text style={styles.priceAfter}>R${parseFloat(this.props.precoComDesconto).toFixed(2)}</Text></Text>
                 <View style={[styles.marginTop,styles.end]}>
                     <Text style={styles.company}>{this.props.nomeFornecedor}</Text>
-                { this.props.qtdFaltante!=0||!this.props.qtdFaltante ? 
-                <Button style={styles.button} onPress={ () => {this.resgatarPromocao()} } title="Retirar promoção" /> 
-                : <Text>Promoção Encerrada</Text> }
+                { this.state.gifCarregando ? 
+                    <Image 
+                        source={require('../assets/loading.gif')}  
+                        style={{width: 30, height: 30 }}
+                    /> 
+                    : this.props.qtdFaltante!=0||!this.props.qtdFaltante ? 
+                this.state.promocaoRetirada ? 
+                    <Text>Promoçao retirada</Text> 
+                    : <Button style={styles.button} onPress={ () => {this.resgatarPromocao()} } title="Retirar promoção" /> 
+                    : <Text>Promoção Encerrada</Text> }
                 </View>
             </View>
         )

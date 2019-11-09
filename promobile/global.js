@@ -1,4 +1,4 @@
-export const baseApiUrl = 'http://192.168.15.6:4000'
+export const baseApiUrl = 'http://192.168.15.5:4000'
 import {AsyncStorage} from 'react-native';
 import axios from 'axios'
 

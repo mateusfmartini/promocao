@@ -3,7 +3,12 @@
         <PageTitle icon="fa fa-dollar" main="Promoções" 
         sub="Cadastre promoções para seus clientes"/>
         <b-button variant="primary" @click="adicionarPromocoes">Adicionar</b-button>
-        <b-table :stacked="mobile" hover striped :items="promocoes" :fields="fields" small> 
+        <b-col class="filtro" sm="9">
+            <b-form-input id="filter" type="text"
+                v-model="filter"
+                placeholder="Pesquisar ..." />
+        </b-col>
+        <b-table :stacked="mobile" hover striped :items="promocoes" :filter="filter" :fields="fields" small> 
             <template slot="actions" slot-scope="data">
                 <b-button v-b-tooltip.hover="{title: 'Editar', delay: 300}" variant="warning" @click="editarPromocao(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
@@ -28,6 +33,7 @@ components: { PageTitle },
         return {
             promocoes: [],
             width: window.innerWidth,
+            filter: '',
             fields: [
                 { key: 'vigencia_ini', label: 'Início', sortable: true, formatter: (value) => {
                     return new Date(value).toLocaleString().substring(0,10)
@@ -87,11 +93,9 @@ components: { PageTitle },
             return this.width < 576 ? true : false
         }
     },
-    mounted() {
-        this.consultaPromocoes()
-    },
     created() {
         window.addEventListener("resize", this.myEventHandler);
+        this.consultaPromocoes()
     },
     destroyed() {
         window.removeEventListener("resize", this.myEventHandler);

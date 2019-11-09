@@ -72,16 +72,16 @@ module.exports = {
             promocao p
     `,
     clientesPorPromocao: `
-    select p.*,pc.id as idvinculo from produto p
-    inner join promocaocliente pc on p.id = pc.idcliente
-    where pc.idcliente = ?
+    select c.*,pc.id as idvinculo from cliente c
+    inner join promocaocliente pc on c.id = pc.idcliente
+    where pc.idpromocao = ?
     `,
     fornecedoresPromocoesClientes:`
     select 
 	pc.*, 
 	(select descricao from cliente where id = pc.idcliente) as nomecliente,
 	(select codigo from promocao where id = pc.idpromocao) as codigocupom,
-	to_char(dataresgate, 'DD/MM/YYYY hh:mm') as datahoraresgate
+	to_char(dataresgate, 'DD/MM/YYYY hh:mi') as datahoraresgate
     from promocaocliente pc
     inner join promocao p on p.id = pc.idpromocao
     where p.idfornecedor = ?

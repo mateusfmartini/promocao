@@ -54,7 +54,7 @@ module.exports = app => {
 
     const get = (req, res) => {
         app.db('promocao')
-            .select('*')
+            .select('id', 'vigencia_ini','vigencia_fim', 'idfornecedor', 'codigo', 'descricao', 'descricaodetalhada', 'percentual', 'quantidademaxima', 'idnativo', 'codigoexterno')
             .orderBy('percentual','desc')
             .then(promocoes => res.json(promocoes))
             .catch(err => res.status(500).send(err))
@@ -62,7 +62,7 @@ module.exports = app => {
 
     const getActive = (req, res) => {
         app.db('promocao')
-            .select('*')
+            .select('id', 'vigencia_ini','vigencia_fim', 'idfornecedor', 'codigo', 'descricao', 'descricaodetalhada', 'percentual', 'quantidademaxima', 'idnativo', 'codigoexterno')
             .where({idnativo: true})
             .orderBy('percentual','desc')
             .then(promocoes => res.json(promocoes))
@@ -71,7 +71,7 @@ module.exports = app => {
 
     const getById = (req, res) => {
         app.db('promocao')
-            .select('*')
+            .select('id', 'vigencia_ini','vigencia_fim', 'idfornecedor', 'codigo', 'descricao', 'descricaodetalhada', 'percentual', 'quantidademaxima', 'idnativo', 'codigoexterno')
             .where({ id: req.params.id}).first()
             .orderBy('percentual','desc')
             .then(promocao => res.json(promocao))
@@ -80,7 +80,7 @@ module.exports = app => {
 
     const getByCodigoFornecedor = (req, res) => {
         return app.db('promocao')
-            .select('*')
+            .select('id', 'vigencia_ini','vigencia_fim', 'idfornecedor', 'codigo', 'descricao', 'descricaodetalhada', 'percentual', 'quantidademaxima', 'idnativo', 'codigoexterno')
             .where({ codigo: req.codigo, idfornecedor: req.idfornecedor }).first()
             .orderBy('percentual','desc')
             .then(promocao => promocao)
@@ -89,7 +89,7 @@ module.exports = app => {
 
     const getByFornecedor = (req, res) => {
         app.db('promocao')
-            .select('*')
+            .select('id', 'vigencia_ini','vigencia_fim', 'idfornecedor', 'codigo', 'descricao', 'descricaodetalhada', 'percentual', 'quantidademaxima', 'idnativo', 'codigoexterno')
             .where({ idfornecedor: req.params.id, idnativo: true })
             .orderBy('percentual','desc')
             .then(promocao => res.json(promocao))

@@ -2,7 +2,12 @@
     <div class="clientes">
         <PageTitle icon="fa fa-users" main="Clientes" 
         sub="Entre em contato com seus clientes"/>
-        <b-table :stacked="mobile" hover striped :items="clientes" :fields="fields" small>
+        <b-col class="filtro">
+            <b-form-input id="filter" type="text"
+                v-model="filter"
+                placeholder="Pesquisar ..." />
+        </b-col>
+        <b-table :stacked="mobile" hover striped :items="clientes" :filter="filter" :fields="fields" small>
             <template slot="actions" slot-scope="data">
                     <a :href="'tel:'+ data.item.telefone">
                     <b-button v-b-tooltip.hover="{title: 'Ligar', delay: 300}" variant="success" class="mr-2">
@@ -36,6 +41,7 @@ export default {
         return {
             clientes: [],
             width: window.innerWidth,
+            filter: '',
             fields: [
                 { key: 'descricao', label: 'Nome', sortable: true },
                 { key: 'email', label: 'E-mail', sortable: true, class: 'word-wrap'},

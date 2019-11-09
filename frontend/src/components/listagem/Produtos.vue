@@ -3,7 +3,12 @@
         <PageTitle icon="fa fa-cube" main="Produtos" 
         sub="Cadastre seus produtos"/>
         <b-button variant="primary" @click="adicionarProdutos">Adicionar</b-button>
-        <b-table :stacked="mobile" hover striped :items="produtos" :fields="fields" small>
+        <b-col class="filtro" sm="9">
+            <b-form-input id="filter" type="text"
+                v-model="filter"
+                placeholder="Pesquisar ..." />
+        </b-col>
+        <b-table :stacked="mobile" hover striped :items="produtos" :filter="filter" :fields="fields" small>
             <template slot="actions" slot-scope="data">
                 <b-button v-b-tooltip.hover="{title: 'Editar', delay: 300}" variant="warning" @click="editarProduto(data.item)" class="mr-2">
                     <i class="fa fa-pencil"></i>
@@ -29,6 +34,7 @@ export default {
         return {
             produtos: [],
             width: window.innerWidth,
+            filter: '',
             fields: [
                 { key: 'codigo', label: 'Código', sortable: true },
                 { key: 'descricao', label: 'Descrição', sortable: true },
@@ -97,6 +103,11 @@ export default {
     }
     .table {
         clear: both;
+    }
+
+    .filtro {
+        display: inline-block;
+        margin-bottom: 10px;
     }
 
 </style>

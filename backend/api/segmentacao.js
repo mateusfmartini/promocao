@@ -18,7 +18,7 @@ module.exports = app => {
             const codigoExistente = await app.db('segmentacao')
             .where({ sglsegmentacao: segmentacaoProduto.sglsegmentacao }).first()
 
-            notExistsOrError(codigoExistente, `Código da segmentação ${segmentacaoProduto.descricao} já cadastrado!`)
+            notExistsOrError(codigoExistente, `Código da segmentação ${segmentacaoProduto.sglsegmentacao} já cadastrado!`)
         } catch(msg) {
             return res.status(400).send(msg)
         }
